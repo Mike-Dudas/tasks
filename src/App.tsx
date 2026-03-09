@@ -9,11 +9,7 @@ import { Counter } from "./components/Counter";
 
 function App(): React.JSX.Element {
     return (
-        <div className="App">
-            <header className="App-header">
-                <h1>UD CISC275 with React Hooks and TypeScript</h1>
-                <p>Michael Dudas</p>
-            </header>
+        <div>
             <hr></hr>
             <Counter></Counter>
             <hr />
