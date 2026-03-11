@@ -11,33 +11,25 @@ const PEOPLE = [
 ];
 
 export function ChooseTeam(): React.JSX.Element {
-    const [allOptions, setAllOptions] = useState<string[]>(PEOPLE);
+    const [people, setPeople] = useState<string[]>(PEOPLE);
     const [team, setTeam] = useState<string[]>([]);
-
-    function chooseMember() {
-        /*
-        if (!team.includes(newMember)) {
-            team.push(newMember);
-        }
-        */
-    }
-
-    function clearTeam() {
-        /*
-        team = [];
-        */
-    }
 
     return (
         <div>
             <h3>Choose Team</h3>
             <Row>
                 <Col>
-                    {allOptions.map((option: string) => (
-                        <div key={option} style={{ marginBottom: "4px" }}>
+                    {people.map((person: string) => (
+                        <div key={person} style={{ marginBottom: "4px" }}>
                             Add{" "}
-                            <Button onClick={chooseMember} size="sm">
-                                {option}
+                            <Button
+                                onClick={() => {
+                                    if (!team.includes(person))
+                                        setTeam([...team, person]);
+                                }}
+                                size="sm"
+                            >
+                                {person}
                             </Button>
                         </div>
                     ))}
@@ -47,7 +39,14 @@ export function ChooseTeam(): React.JSX.Element {
                     {team.map((member: string) => (
                         <li key={member}>{member}</li>
                     ))}
-                    <Button onClick={clearTeam}>Clear Team</Button>
+                    <Button
+                        onClick={() => {
+                            setTeam([]);
+                            setPeople([...PEOPLE]);
+                        }}
+                    >
+                        Clear Team
+                    </Button>
                 </Col>
             </Row>
         </div>
