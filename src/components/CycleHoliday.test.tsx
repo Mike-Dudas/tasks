@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { CycleHoliday } from "./CycleHoliday";
 
@@ -7,12 +7,12 @@ describe("CycleHoliday Component tests", () => {
         render(<CycleHoliday />);
     });
 
-    test("An initial holiday is displayed", () => {
+    test("(1 pts) An initial holiday is displayed", () => {
         const initialHoliday = screen.getByText(/Holiday: (.*)/i);
         expect(initialHoliday).toBeInTheDocument();
     });
 
-    test("There are two buttons", () => {
+    test("(1 pts) There are two buttons", () => {
         const alphabetButton = screen.getByRole("button", {
             name: /Alphabet/i
         });
@@ -23,7 +23,7 @@ describe("CycleHoliday Component tests", () => {
         expect(yearButton).toBeInTheDocument();
     });
 
-    test("Can cycle through 5 distinct holidays alphabetically", () => {
+    test("(1 pts) Can cycle through 5 distinct holidays alphabetically", async () => {
         const alphabetButton = screen.getByRole("button", {
             name: /Alphabet/i
         });
@@ -31,14 +31,16 @@ describe("CycleHoliday Component tests", () => {
         const states: string[] = [];
         for (let i = 0; i < 6; i++) {
             states.push(initialHoliday.textContent || "");
-            alphabetButton.click();
+            await act(async () => {
+                alphabetButton.click();
+            });
         }
         const uniqueStates = states.filter((x, y) => states.indexOf(x) == y);
         expect(uniqueStates).toHaveLength(5);
         expect(states[0]).toEqual(states[5]);
     });
 
-    test("Can cycle through 5 distinct holidays by year", () => {
+    test("(1 pts) Can cycle through 5 distinct holidays by year", async () => {
         const yearButton = screen.getByRole("button", {
             name: /Year/i
         });
@@ -46,7 +48,9 @@ describe("CycleHoliday Component tests", () => {
         const states: string[] = [];
         for (let i = 0; i < 6; i++) {
             states.push(initialHoliday.textContent || "");
-            yearButton.click();
+            await act(async () => {
+                yearButton.click();
+            });
         }
         const uniqueStates = states.filter((x, y) => states.indexOf(x) == y);
         expect(uniqueStates).toHaveLength(5);

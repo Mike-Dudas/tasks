@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { TwoDice } from "./TwoDice";
 import { extractDigits } from "./StartAttempt.test";
@@ -22,13 +22,13 @@ describe("TwoDice Component tests", () => {
     beforeEach(() => {
         render(<TwoDice />);
     });
-    test("There is a `left-die` and `right-die` testid", () => {
+    test("(1 pts) There is a `left-die` and `right-die` testid", () => {
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         expect(leftDie).toBeInTheDocument();
         expect(rightDie).toBeInTheDocument();
     });
-    test("The `left-die` and `right-die` are two different numbers", () => {
+    test("(1 pts) The `left-die` and `right-die` are two different numbers", () => {
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         const leftNumber = extractDigits(leftDie);
@@ -39,17 +39,23 @@ describe("TwoDice Component tests", () => {
         // Then they are two different numbers
         expect(leftNumber).not.toEqual(rightNumber);
     });
-    test("There are two buttons present", () => {
+    test("(1 pts) There are two buttons present", () => {
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         expect(leftButton).toBeInTheDocument();
         expect(rightButton).toBeInTheDocument();
     });
-    test("Clicking left button changes first number", () => {
+    test("(1 pts) Clicking left button changes first number", async () => {
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
-        leftButton.click();
-        leftButton.click();
-        leftButton.click();
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            leftButton.click();
+        });
         // Then the random function should be called 3 times
         expect(mathRandomFunction).toBeCalledTimes(3);
         // And the number to be 5
@@ -57,11 +63,17 @@ describe("TwoDice Component tests", () => {
         expect(leftNumber).toEqual(5);
     });
     // Clicking right button changes second number
-    test("Clicking right button changes second number", () => {
+    test("(1 pts) Clicking right button changes second number", async () => {
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
-        rightButton.click();
-        rightButton.click();
-        rightButton.click();
+        await act(async () => {
+            rightButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
         // Then the random function should be called 3 times
         expect(mathRandomFunction).toBeCalledTimes(3);
         // And the number to be 5
@@ -69,15 +81,19 @@ describe("TwoDice Component tests", () => {
         expect(rightNumber).toEqual(5);
     });
     // Rolling two different numbers does not win or lose the game
-    test("Rolling two different numbers does not win or lose the game", () => {
+    test("(1 pts) Rolling two different numbers does not win or lose the game", async () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         // When the left and right buttons are rolled once each
-        leftButton.click();
-        rightButton.click();
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
         // Then the numbers are not equal
         const leftNumber = extractDigits(leftDie);
         const rightNumber = extractDigits(rightDie);
@@ -90,18 +106,28 @@ describe("TwoDice Component tests", () => {
         const loseText = screen.queryByText(/Lose/i);
         expect(loseText).toBeNull();
     });
-    test("Getting snake eyes loses the game", () => {
+    test("(1 pts) Getting snake eyes loses the game", async () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         // When the left and right buttons are rolled once each
-        leftButton.click();
-        rightButton.click();
-        rightButton.click();
-        rightButton.click();
-        rightButton.click();
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
         // Then the numbers are not equal
         const leftNumber = extractDigits(leftDie);
         const rightNumber = extractDigits(rightDie);
@@ -114,17 +140,25 @@ describe("TwoDice Component tests", () => {
         const loseText = screen.getByText(/Lose/i);
         expect(loseText).toBeInTheDocument();
     });
-    test("Getting matching numbers wins the game", () => {
+    test("(1 pts) Getting matching numbers wins the game", async () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         // When the left and right buttons are rolled once each
-        leftButton.click();
-        leftButton.click();
-        leftButton.click();
-        rightButton.click();
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            leftButton.click();
+        });
+        await act(async () => {
+            rightButton.click();
+        });
         // Then the numbers are not equal
         const leftNumber = extractDigits(leftDie);
         const rightNumber = extractDigits(rightDie);
