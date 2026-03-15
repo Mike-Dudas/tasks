@@ -20,25 +20,32 @@ export function ChangeColor(): React.JSX.Element {
     return (
         <div>
             <h3>Change Color</h3>
-            {COLORS.map((color) => (
+            {COLORS.map((currentColor) => (
                 <Form.Check
                     inline
-                    key={color}
+                    key={currentColor}
                     type="radio"
                     name="color"
-                    id={`color-${color}`}
-                    label={color}
-                    value={color}
+                    id={`color-${currentColor}`}
+                    label={currentColor}
+                    value={currentColor}
+                    checked={color === currentColor}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setColor(event.target.value);
                     }}
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: currentColor }}
                 ></Form.Check>
             ))}
 
             <p>
                 You have chosen{" "}
-                <span style={{ backgroundColor: color }}>{color}</span>.
+                <span
+                    data-testid="colored-box"
+                    style={{ backgroundColor: color }}
+                >
+                    {color}
+                </span>
+                .
             </p>
         </div>
     );

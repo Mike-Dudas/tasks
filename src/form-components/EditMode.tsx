@@ -22,6 +22,7 @@ export function EditMode(): React.JSX.Element {
             {editModeStatus ?
                 <Form.Group id="editMode">
                     <Form.Control
+                        type="text"
                         value={name}
                         onChange={(
                             event: React.ChangeEvent<HTMLInputElement>,
@@ -42,7 +43,7 @@ export function EditMode(): React.JSX.Element {
                     ></Form.Check>
                 </Form.Group>
             :   <p>
-                    {name} is {isStudent ? "a student." : "not a student."}
+                    {name} is {isStudent ? "a student." : "not a student"}
                 </p>
             }
         </div>
